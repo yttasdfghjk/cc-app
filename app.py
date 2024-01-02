@@ -26,19 +26,6 @@ pricesDfListHourly =[]
 limit_value = 2000
 exchange_name = 'Binance'
 
-comm1 = """
-if count == 0:
-    st.write("Count is zero")
-elif count % 3 == 0 and count % 5 == 0:
-    st.write("FizzBuzz")
-elif count % 3 == 0:
-    st.write("Fizz")
-elif count % 5 == 0:
-    st.write("Buzz")
-else:
-    st.write(f"Count: {count}")
-because streamlit renders block comments
-"""
 
 def create_candlestickchart(df):
     fig = go.Figure()
