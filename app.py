@@ -1,6 +1,7 @@
 import streamlit as st
 from streamlit_autorefresh import st_autorefresh
 
+#https://python.land/virtual-environments/virtualenv
 #################hourly
 import cryptocompare
 import pandas as pd
@@ -50,9 +51,14 @@ def create_candlestickchart(df):
     
     return fig
 
-def getPriceListData(timeframe, tickers, pricesDfList):
+#def getPriceListData(timeframe, tickers, pricesDfList):
+def getPriceListData(timeframe, tickers):
+
+    pricesDfList =[]
+    #pricesDfListHourly =[]
+    limit_value = 2000
+    exchange_name = 'Binance'
     
- 
     year = int(pd.Timestamp.today().strftime('%Y'))
     month = int(pd.Timestamp.today().strftime('%m'))
     day = int(pd.Timestamp.today().strftime('%d'))
@@ -131,8 +137,11 @@ def prophetforecast(data):
 
 
 st.header("A simple Crypto Screener for  volume signals")
-pricesDfListDaily=getPriceListData("daily", tickers, pricesDfListDaily)
-pricesDfListHourly=getPriceListData("hourly", tickers, pricesDfListHourly)
+#pricesDfListDaily=getPriceListData("daily", tickers, pricesDfListDaily)
+#pricesDfListHourly=getPriceListData("hourly", tickers, pricesDfListHourly)
+#tickerSelected = st.selectbox("Ticker", tickers)
+pricesDfListDaily=getPriceListData("daily", tickers)
+pricesDfListHourly=getPriceListData("hourly", tickers)
 tickerSelected = st.selectbox("Ticker", tickers)
 
 st.subheader("Signals")
