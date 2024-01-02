@@ -1,8 +1,6 @@
 import streamlit as st
 from streamlit_autorefresh import st_autorefresh
 
-#https://python.land/virtual-environments/virtualenv
-#################hourly
 import cryptocompare
 import pandas as pd
 import numpy as np
@@ -15,11 +13,9 @@ from prophet.plot import plot_plotly
 
 count = st_autorefresh(interval=3600000, key="refreshcounter")
 
-#tickers=["BTC", "ETH", "MATIC", "ADA", "DOT", "SOL", "LINK", "VET", "ICP", "AVAX", "FTM", "FET", "RNDR", "TAO", "SEI", "AKT", "AXL", "SUI", "SFUND"]
 tickers = ["BTC", "ETH", "MATIC", "ADA", "DOT", "SOL", "LINK", "CAKE",
          "VET", "ICP", "AVAX", "FTM", "FET", "RNDR", "SEI", "SUI"]
-#tickers = pd.read_excel('Tickers.xlsx')
-#tickers = tickers.to_numpy()
+
 currency = 'USDT'
 pricesDfListDaily =[]
 pricesDfListHourly =[]
@@ -104,29 +100,26 @@ def prophetforecast(data):
     df_train = data[['datetimes','close']]
     df_train = df_train.rename(columns={"datetimes": "ds", "close": "y"})
 
-    m = Prophet()
-    m.fit(df_train)
-    future = m.make_future_dataframe(periods=period)
-    forecast = m.predict(future)
+    model = Prophet()
+    model.fit(df_train)
+    future = model.make_future_dataframe(periods=period)
+    forecast = model.predict(future)
 
     # Show and plot forecast
     #st.subheader('Forecast data')
     #st.write(forecast.tail())
 
     st.write(f'Forecast plot for {n_years} years')
-    fig1 = plot_plotly(m, forecast)
+    fig1 = plot_plotly(model, forecast)
     st.plotly_chart(fig1)
 
     st.write("Forecast components")
-    fig2 = m.plot_components(forecast)
+    fig2 = model.plot_components(forecast)
     st.write(fig2)
 
 
 
 st.header("A simple Crypto Screener for  volume signals")
-#pricesDfListDaily=getPriceListData("daily", tickers, pricesDfListDaily)
-#pricesDfListHourly=getPriceListData("hourly", tickers, pricesDfListHourly)
-#tickerSelected = st.selectbox("Ticker", tickers)
 pricesDfListDaily=getPriceListData("daily", tickers)
 pricesDfListHourly=getPriceListData("hourly", tickers)
 tickerSelected = st.selectbox("Ticker", tickers)
